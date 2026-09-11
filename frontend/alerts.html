@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerts Engine - Smart Storage</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="home.html" style="text-decoration: none; color: var(--text-main); font-size: 20px;">
+        ←
+      </a>
+      <div class="brand-title">Alerts & Safety Engine</div>
+      <button class="sim-btn-pill" onclick="app.openSimModal()">Test Alerts</button>
+    </header>
+
+    <main class="app-content">
+      <!-- Tab Filters -->
+      <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+        <button id="tabActive" class="btn btn-primary" style="height: 38px; font-size: 0.85rem;" onclick="setAlertTab(true)">
+          Active Alerts
+        </button>
+        <button id="tabAll" class="btn btn-secondary" style="height: 38px; font-size: 0.85rem;" onclick="setAlertTab(false)">
+          All Alerts History
+        </button>
+      </div>
+
+      <div id="alertsListContainer">
+        <!-- Populated by alerts.js -->
+      </div>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-item">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="storage.html" class="nav-item">
+        <span class="nav-icon">❄️</span>
+        <span>Storage</span>
+      </a>
+      <div class="nav-fab-wrap">
+        <a href="add-produce.html" class="nav-fab">➕</a>
+      </div>
+      <a href="alerts.html" class="nav-item active">
+        <span class="nav-icon">🔔</span>
+        <span>Alerts</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span class="nav-icon">📜</span>
+        <span>History</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/alerts.js"></script>
+  <script>
+    let currentTabActive = true;
+    function setAlertTab(activeOnly) {
+      currentTabActive = activeOnly;
+      document.getElementById('tabActive').className = activeOnly ? 'btn btn-primary' : 'btn btn-secondary';
+      document.getElementById('tabAll').className = !activeOnly ? 'btn btn-primary' : 'btn btn-secondary';
+      alertsPage.loadAlerts(activeOnly);
+    }
+    document.addEventListener('DOMContentLoaded', () => setAlertTab(true));
+  </script>
+</body>
+</html>

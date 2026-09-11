@@ -1,0 +1,16 @@
+{
+  "short_name": "SmartStorage",
+  "name": "Smart Solar Mini Cold Storage",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/home.html",
+  "background_color": "#F4F6F8",
+  "theme_color": "#2E7D32",
+  "display": "standalone",
+  "orientation": "portrait"
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Dashboard - Smart Solar Mini Cold Storage</title>
+  <meta name="description" content="Decentralized solar cold storage farmer dashboard">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top App Header -->
+    <header class="app-header">
+      <div class="brand-header">
+        <div class="brand-logo">❄️</div>
+        <div>
+          <div class="brand-title">Smart Storage</div>
+          <div style="font-size: 0.72rem; color: var(--text-muted);">
+            Unit: <strong id="headerUnitCode">NER-CS-001</strong>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="storageStatusPill" class="status-pill safe">
+          <span class="pulse-dot"></span> SAFE
+        </span>
+      </div>
+    </header>
+
+    <!-- Simulation Demo Banner -->
+    <div class="simulation-banner">
+      <span>⚙️ DEMO / SIMULATION MODE ACTIVE</span>
+      <button class="sim-btn-pill" onclick="app.openSimModal()">Demo Controls</button>
+    </div>
+
+    <!-- Offline Banner -->
+    <div id="offlineBanner" class="offline-banner">
+      <span>📡 Device Offline / No Internet. Autonomous cooling remains active.</span>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="app-content">
+      <!-- Greeting Card -->
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <div>
+          <h1 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">
+            Namaste, <span id="farmerName">Farmer</span> 🙏
+          </h1>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">Community Unit: Mayong Village, Morigaon</p>
+        </div>
+        <a href="scan.html" style="font-size: 0.82rem; font-weight: 700; color: var(--primary); text-decoration: none;">
+          Switch Unit ➔
+        </a>
+      </div>
+
+      <!-- Main Summary: Current Storage Capacity -->
+      <section class="card capacity-card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>⚖️</span> CURRENT STORAGE
+          </div>
+          <span id="capPctText" style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark);">70% occupied</span>
+        </div>
+
+        <div class="capacity-metric-row">
+          <div>
+            <div class="capacity-number" id="capOccupied">35.0 kg</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">OCCUPIED</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="capacity-limit" id="capAvailable">15.0 kg left</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">of <span id="capTotal">50 kg</span> total</div>
+          </div>
+        </div>
+
+        <div class="progress-track">
+          <div id="capProgressFill" class="progress-fill warning" style="width: 70%;"></div>
+        </div>
+
+        <div class="capacity-stats">
+          <span>Capacity: 50 kg</span>
+          <span>Shared: 2 Farmers</span>
+        </div>
+      </section>
+
+      <!-- Current Condition Metrics -->
+      <section>
+        <div style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 8px;">
+          Current Condition
+        </div>
+        <div class="telemetry-grid">
+          <!-- Temperature -->
+          <div class="telemetry-card highlight">
+            <div class="telemetry-label">
+              <span>🌡️</span> Inside Temp
+            </div>
+            <div class="telemetry-value" id="valTemp">11.6°C</div>
+            <div class="telemetry-subtext">Target: 11.5°C</div>
+          </div>
+
+          <!-- Humidity -->
+          <div class="telemetry-card">
+            <div class="telemetry-label">
+              <span>💧</span> Humidity
+            </div>
+            <div class="telemetry-value" id="valHum">78%</div>
+            <div class="telemetry-subtext">Safe Range: 75–90%</div>
+          </div>
+
+          <!-- Battery -->
+          <div class="telemetry-card">
+            <div class="telemetry-label">
+              <span>🔋</span> Battery
+            </div>
+            <div class="telemetry-value" id="valBat">82%</div>
+            <div class="telemetry-subtext">LiFePO4 Solar</div>
+          </div>
+
+          <!-- Door -->
+          <div class="telemetry-card">
+            <div class="telemetry-label">
+              <span>🚪</span> Door
+            </div>
+            <div class="telemetry-value" id="valDoor">Closed</div>
+            <div class="telemetry-subtext">Magnetic Seal</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Actions (3 Large Touch Targets) -->
+      <section class="quick-actions-row">
+        <a href="scan.html" class="action-btn-card">
+          <div class="action-icon">📷</div>
+          <div class="action-text">Scan Storage</div>
+        </a>
+        <a href="add-produce.html" class="action-btn-card primary">
+          <div class="action-icon">➕</div>
+          <div class="action-text">Add Produce</div>
+        </a>
+        <a href="live-storage.html" class="action-btn-card">
+          <div class="action-icon">📊</div>
+          <div class="action-text">Live Status</div>
+        </a>
+      </section>
+
+      <!-- Active Alerts Preview -->
+      <section>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+          <div style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);">
+            Active Alerts
+          </div>
+          <a href="alerts.html" style="font-size: 0.8rem; font-weight: 700; color: var(--primary); text-decoration: none;">
+            View All ➔
+          </a>
+        </div>
+        <div id="dashboardAlertContainer">
+          <!-- Dynamic alert rendered here -->
+        </div>
+      </section>
+
+      <!-- Current Produce in Chamber -->
+      <section class="card">
+        <div class="card-header" style="margin-bottom: 8px;">
+          <div class="card-title">
+            <span>🥬</span> CURRENT PRODUCE
+          </div>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Chamber Inventory</span>
+        </div>
+        <div id="currentProduceList">
+          <!-- Populated by dashboard.js -->
+        </div>
+      </section>
+
+      <!-- Explainable Recommendation Card -->
+      <section>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+          <div style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);">
+            Decision Support
+          </div>
+          <a href="recommendation.html" style="font-size: 0.8rem; font-weight: 700; color: var(--primary); text-decoration: none;">
+            Full Analysis ➔
+          </a>
+        </div>
+        <div id="dashboardRecommendationBox">
+          <!-- Populated by dashboard.js -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-item active">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="storage.html" class="nav-item">
+        <span class="nav-icon">❄️</span>
+        <span>Storage</span>
+      </a>
+      <div class="nav-fab-wrap">
+        <a href="add-produce.html" class="nav-fab" title="Add Produce">
+          ➕
+        </a>
+      </div>
+      <a href="alerts.html" class="nav-item">
+        <span class="nav-icon">🔔</span>
+        <span>Alerts</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span class="nav-icon">📜</span>
+        <span>History</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => dashboard.init());
+  </script>
+</body>
+</html>
