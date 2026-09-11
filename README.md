@@ -202,3 +202,4 @@ To connect physical ESP32 microcontrollers instead of simulation mode:
 
 ## 7. License & Attribution
 Developed for Smart India Hackathon (SIH). Tailored for the agricultural empowerment of smallholder farming communities across the North Eastern Region of India.
+"# SIH" 
