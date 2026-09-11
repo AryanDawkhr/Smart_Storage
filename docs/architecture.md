@@ -32,7 +32,7 @@ The **Smart Solar Mini Cold Storage** system solves this via a decentralized, co
                |                                             |
                v                                             |
 +-----------------------------+                              |
-|   PostgreSQL / SQLite DB    |<-----------------------------+
+|        MySQL Database       |<-----------------------------+
 | (13 Normalized Relational   |
 |           Tables)           |
 +--------------+--------------+

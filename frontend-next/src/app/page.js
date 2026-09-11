@@ -1,5 +1,5 @@
-import LegacyScreen from "./legacy-screen";
+import AppScreen from "./app-shell";
 
 export default function Home() {
-  return <LegacyScreen page="index" />;
+  return <AppScreen page="index" />;
 }

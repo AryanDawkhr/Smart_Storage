@@ -33,14 +33,14 @@ In the North Eastern Region (NER) of India, small farmers face severe post-harve
 ### Backend
 - **Language & Framework:** Python 3.11+, FastAPI (REST APIs & WebSocket Stream)
 - **Validation:** Pydantic v2
-- **ORM & Database:** SQLAlchemy 2.0 with native PostgreSQL DDL/DML and automatic SQLite zero-setup fallback
+- **ORM & Database:** SQLAlchemy 2.0 with MySQL via PyMySQL
 - **Authentication:** JWT Bearer tokens with Bcrypt password hashing
 - **Real-Time Stream:** WebSockets (`/ws/telemetry`)
 
 ### Frontend
-- **Structure & Logic:** HTML5, Modern Vanilla JavaScript (ES6+ Modules, zero heavy frameworks)
-- **Styling:** Custom Vanilla CSS3 with high-contrast rules, mobile-first responsive grid/flexbox
-- **Offline / PWA:** Service Worker (`sw.js`) and Web App Manifest (`manifest.json`)
+- **Application:** Next.js App Router with React
+- **Styling:** Native responsive CSS design system with shadcn-inspired surfaces and controls
+- **Client state:** Browser localStorage for session and active storage unit
 - **QR Scanner:** Lightweight camera stream scanner with manual Unit ID fallback
 
 ### Hardware (Physical & Simulated)
@@ -66,28 +66,10 @@ smart-mini-cold-storage/
 │       ├── services/                # Compatibility, Telemetry, Alerts, Decision engine
 │       ├── websocket/               # Active WebSocket connection pool
 │       └── api/                     # 11 Modular REST API route handlers
-├── frontend/
-│   ├── index.html                   # Farmer Login
-│   ├── register.html                # Farmer Registration (NER States)
-│   ├── home.html                    # Home Dashboard
-│   ├── scan.html                    # QR Storage Unit Scanner
-│   ├── storage.html                 # Storage Details & Occupancy
-│   ├── add-produce.html             # Multi-Step Produce Intake
-│   ├── compatibility.html           # Thermal Intersection Checker
-│   ├── live-storage.html            # Live Telemetry & Gauge Monitor
-│   ├── alerts.html                  # Active & Resolved Alerts Engine
-│   ├── history.html                 # Storage History & Age Tracking
-│   ├── market.html                  # NER Mandi Rates & Transport Logistics
-│   ├── recommendation.html          # Explainable Decision Support Engine
-│   ├── profile.html                 # Farmer Profile
-│   ├── settings.html                # Language (i18n), Units & Demo Controls
-│   ├── sw.js                        # Offline Service Worker
-│   ├── manifest.json                # PWA Manifest
-│   ├── css/                         # Custom style.css & responsive.css
-│   └── js/                          # Modular Vanilla JS controllers
-├── database/
-│   ├── schema.sql                   # Full PostgreSQL DDL (13 tables & indexes)
-│   └── seed.sql                     # Realistic NER seed data (farmers, crops, units)
+├── frontend-next/                   # Next.js App Router frontend
+│   ├── src/app/                     # Native React screens, API client, and shell
+│   ├── package.json                 # Node dependencies and scripts
+│   └── package-lock.json
 ├── esp32/
 │   ├── esp32_firmware.ino           # Complete C++ Arduino firmware for ESP32
 │   └── README.md                    # Hardware wiring & pinout diagrams
@@ -108,8 +90,14 @@ smart-mini-cold-storage/
 
 ### Step 1: Install Dependencies
 ```bash
-cd "a:/aryan all/SIH/Smart_Storage"
+cd "Smart_Storage"
 pip install -r backend/requirements.txt
+```
+
+Install the Next.js frontend dependencies:
+```bash
+cd frontend-next
+npm install
 ```
 
 ### Step 2: Start the Application
@@ -117,21 +105,27 @@ Run the FastAPI backend server:
 ```bash
 python backend/main.py
 ```
-*Note: The backend automatically creates database tables and populates realistic demo seed data on startup. The built-in hardware simulation service starts immediately.*
+*Note: The backend connects to MySQL, creates missing tables, and populates realistic demo seed data on startup. The built-in hardware simulation service starts immediately.*
 
-### Step 3: Open the Web Application
+### Step 3: Start the Next.js Web Application
+Run the frontend in a second terminal:
+```bash
+cd frontend-next
+npm run dev -- --hostname 0.0.0.0 --port 3000
+```
+
 Navigate in your browser to:
 ```
-http://localhost:8000
+http://localhost:3000
 ```
-*(Or open `http://localhost:8000/home.html` for direct dashboard access).*
+The backend API remains available at `http://localhost:8000`.
 
 ---
 
 ## 5. Judge Demonstration Walkthrough (15-Step Script)
 
 1. **Farmer Authentication:**
-   - Open `http://localhost:8000`.
+   - Open `http://localhost:3000`.
    - Use the **"Judge Demo Quick-Login"** button to log in instantly as **Farmer Ramesh Bora** (or enter mobile `9876543210` with password `farmer123`).
 2. **Review Home Dashboard:**
    - Observe the clean, high-contrast dashboard showing:
@@ -157,7 +151,7 @@ http://localhost:8000
    - Observe verification response: **✓ Produce Compatible & Space Confirmed** (Safe common band 10.0–13.0°C, target 11.5°C).
    - Tap **"Confirm & Store Produce"** to intake.
 8. **Live Telemetry & WebSocket Streaming:**
-   - Tap **"Live Status"** or navigate to `live-storage.html`.
+   - Tap **"Live Status"** or navigate to `/live-storage`.
    - Observe dominant digital gauges updating in real-time via WebSocket without page refreshing.
    - View smooth SVG trend sparklines for temperature, humidity, and battery reserves.
 9. **Interactive Hardware Simulation (Demo Controls):**
@@ -176,12 +170,12 @@ http://localhost:8000
     - Inspect elapsed storage duration (e.g. *"2d 4h ago"*), remaining safe shelf life, and harvest dates.
     - Tap **"Retrieve / Checkout"** on a stored batch to simulate farmer pickup and free up storage capacity.
 12. **Check Regional Mandi Prices:**
-    - Navigate to **Market & Logistics** (`market.html`).
+   - Navigate to **Market & Logistics** (`/market`).
     - View live Mandi rates across Guwahati APMC, Shillong Bara Bazar, and Jorhat Mandi with price trends (📈 Rising / 📉 Falling) and arrival volumes.
 13. **Review Rural Logistics Options:**
     - On the same page, view scheduled rural freight options (Tata Ace / Bolero Pickup) with departure times, cost per quintal, and one-tap **"Call Driver"** action.
 14. **Inspect Explainable Decision Support Engine:**
-    - Tap **Decision Support** (`recommendation.html`).
+   - Tap **Decision Support** (`/recommendation`).
     - Review the transparent **STORE**, **SELL**, or **TRANSPORT** advice with confidence scores and explainable factor breakdown cards (chamber stability, age percentage, mandi price trend, freight pickup).
 15. **Simulate Offline Operation:**
     - Click **"Demo Controls"** and toggle **"📡 Simulate Disconnect"** (or turn off Wi-Fi).

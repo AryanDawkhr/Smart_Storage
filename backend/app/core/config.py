@@ -1,4 +1,3 @@
-import os
 from typing import List
 from pydantic_settings import BaseSettings
 
@@ -13,8 +12,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 43200
 
-    # Auto fallback to sqlite if postgresql url not provided or unreachable
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./smart_storage.db")
+    DATABASE_URL: str
 
     SIMULATION_MODE: bool = True
     SIMULATION_TICK_SECONDS: int = 4

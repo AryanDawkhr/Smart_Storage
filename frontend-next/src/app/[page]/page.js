@@ -1,6 +1,6 @@
-import LegacyScreen from "../legacy-screen";
+import AppScreen from "../app-shell";
 
 export default async function Page({ params }) {
   const { page } = await params;
-  return <LegacyScreen page={page} />;
+  return <AppScreen page={page} />;
 }
