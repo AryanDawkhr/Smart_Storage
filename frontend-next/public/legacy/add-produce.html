@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Produce - Smart Storage</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="home.html" style="text-decoration: none; color: var(--text-main); font-size: 20px;">
+        ←
+      </a>
+      <div class="brand-title">Add Produce to Storage</div>
+      <a href="compatibility.html" title="Check Compatibility" style="font-size: 20px; text-decoration: none;">🔍</a>
+    </header>
+
+    <main class="app-content">
+      <div class="card" style="margin-bottom: 12px; background: var(--primary-light); border-color: #c8e6c9;">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark);">
+          Target Storage Unit: <span id="addUnitCode">NER-CS-001</span>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--text-muted);">
+          System will verify remaining capacity & crop thermal compatibility automatically.
+        </div>
+      </div>
+
+      <form id="addProduceForm" onsubmit="produce.submitProduce(event)">
+        <div class="card">
+          <!-- Crop Select -->
+          <div class="form-group">
+            <label class="form-label" for="cropSelect">1. Harvested Crop</label>
+            <select id="cropSelect" class="form-select" required>
+              <option value="">Loading crops...</option>
+            </select>
+          </div>
+
+          <!-- Quantity -->
+          <div class="form-group">
+            <label class="form-label" for="quantityInput">2. Quantity (kg)</label>
+            <input type="number" id="quantityInput" class="form-input" placeholder="e.g. 15" min="1" max="100" step="0.5" required>
+          </div>
+
+          <!-- Condition -->
+          <div class="form-group">
+            <label class="form-label" for="conditionSelect">3. Produce Condition</label>
+            <select id="conditionSelect" class="form-select" required>
+              <option value="Fresh">Fresh (Harvested within 24h)</option>
+              <option value="Good" selected>Good (Firm, no bruises)</option>
+              <option value="Slightly damaged">Slightly damaged</option>
+              <option value="Damaged">Damaged</option>
+            </select>
+          </div>
+
+          <!-- Harvest Date -->
+          <div class="form-group">
+            <label class="form-label" for="harvestDateInput">4. Harvest Date</label>
+            <input type="date" id="harvestDateInput" class="form-input" required>
+          </div>
+
+          <!-- Farmer Notes -->
+          <div class="form-group">
+            <label class="form-label" for="notesInput">5. Farmer Notes (Optional)</label>
+            <textarea id="notesInput" class="form-textarea" placeholder="e.g. Riverbank plot harvest; firm grade A"></textarea>
+          </div>
+
+          <!-- Step 2 & 3 Automatic Verification Result Box -->
+          <div id="verificationResultBox" style="display: none; margin-bottom: 16px; padding: 12px; border-radius: 8px;"></div>
+
+          <button type="submit" id="submitProduceBtn" class="btn btn-primary">
+            Confirm & Store Produce
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-item">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="storage.html" class="nav-item">
+        <span class="nav-icon">❄️</span>
+        <span>Storage</span>
+      </a>
+      <div class="nav-fab-wrap">
+        <a href="add-produce.html" class="nav-fab" style="background: var(--primary-dark);">➕</a>
+      </div>
+      <a href="alerts.html" class="nav-item">
+        <span class="nav-icon">🔔</span>
+        <span>Alerts</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span class="nav-icon">📜</span>
+        <span>History</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/produce.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('harvestDateInput').value = new Date().toISOString().split('T')[0];
+      const unitEl = document.getElementById('addUnitCode');
+      if (unitEl) unitEl.textContent = app.activeUnitCode;
+    });
+  </script>
+</body>
+</html>

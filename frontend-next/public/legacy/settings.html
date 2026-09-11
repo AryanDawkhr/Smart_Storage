@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Smart Storage</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="home.html" style="text-decoration: none; color: var(--text-main); font-size: 20px;">
+        ←
+      </a>
+      <div class="brand-title">Settings & Preferences</div>
+      <div style="width: 24px;"></div>
+    </header>
+
+    <main class="app-content">
+      <!-- Language Selector (i18n Readiness) -->
+      <div class="card">
+        <div class="card-header" style="margin-bottom: 8px;">
+          <div class="card-title" style="font-size: 0.95rem;">
+            <span>🌐</span> Language / ভাষা / भाषा
+          </div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+          Select your preferred regional language:
+        </p>
+        <div class="form-group" style="margin-bottom: 0;">
+          <select id="langSelect" class="form-select" onchange="changeLanguage(this.value)">
+            <option value="en">English (Default)</option>
+            <option value="as">Assamese (অসমীয়া)</option>
+            <option value="hi">Hindi (हिन्दी)</option>
+            <option value="bn">Bengali (বাংলা)</option>
+            <option value="mni">Manipuri (মৈতৈলোন্)</option>
+            <option value="kha">Khasi</option>
+            <option value="lus">Mizo</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Temperature Units -->
+      <div class="card">
+        <div class="card-header" style="margin-bottom: 8px;">
+          <div class="card-title" style="font-size: 0.95rem;">
+            <span>🌡️</span> Temperature Units
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <label style="flex: 1; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+            <input type="radio" name="tempUnit" value="C" checked> Celsius (°C)
+          </label>
+          <label style="flex: 1; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer;">
+            <input type="radio" name="tempUnit" value="F"> Fahrenheit (°F)
+          </label>
+        </div>
+      </div>
+
+      <!-- Demo Simulation Controls -->
+      <div class="card" style="border-left: 5px solid var(--status-warning);">
+        <div class="card-header" style="margin-bottom: 8px;">
+          <div class="card-title" style="font-size: 0.95rem;">
+            <span>⚙️</span> Judge Demonstration Mode
+          </div>
+          <span class="status-pill warning">SIMULATION</span>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+          Use the interactive hardware simulation console to trigger sensor spikes, open door alerts, battery discharge, and offline cooling autonomy.
+        </p>
+        <button class="btn btn-primary" onclick="app.openSimModal()">
+          Open Hardware Demo Controls
+        </button>
+      </div>
+
+      <!-- Account Actions -->
+      <div class="card">
+        <button class="btn btn-danger" onclick="auth.logout()">
+          🚪 Logout from Account
+        </button>
+      </div>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-item">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="storage.html" class="nav-item">
+        <span class="nav-icon">❄️</span>
+        <span>Storage</span>
+      </a>
+      <div class="nav-fab-wrap">
+        <a href="add-produce.html" class="nav-fab">➕</a>
+      </div>
+      <a href="alerts.html" class="nav-item">
+        <span class="nav-icon">🔔</span>
+        <span>Alerts</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span class="nav-icon">👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/simulation.js"></script>
+  <script>
+    function changeLanguage(lang) {
+      app.setLanguage(lang);
+      app.showToast(`Language set to ${lang.toUpperCase()}`, 'success');
+    }
+  </script>
+</body>
+</html>

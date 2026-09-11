@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Smart Solar Mini Cold Storage</title>
+  <meta name="description" content="Decentralized solar cold-storage for farmers in North Eastern Region">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container" style="justify-content: center; padding: 20px;">
+    <!-- Offline Notification Banner -->
+    <div id="offlineBanner" class="offline-banner">
+      <span>⚠️ Offline Mode Active (Cached data enabled)</span>
+    </div>
+
+    <div class="card" style="padding: 28px 20px;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div style="width: 56px; height: 56px; background: var(--primary-light); color: var(--primary); border-radius: 14px; font-size: 32px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+          ❄️
+        </div>
+        <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 4px;">
+          Smart Storage
+        </h1>
+        <p style="font-size: 0.95rem; color: var(--text-muted); font-weight: 500;">
+          Smart storage for better farming
+        </p>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="loginMobile">Mobile Number</label>
+          <input type="tel" id="loginMobile" class="form-input" placeholder="e.g. 9876543210" required pattern="[0-9]{10}">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top: 8px;">
+          Login to Storage
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 18px; font-size: 0.9rem;">
+        <span style="color: var(--text-muted);">New farmer?</span>
+        <a href="register.html" style="color: var(--primary); font-weight: 700; text-decoration: none; margin-left: 6px;">
+          Register Here
+        </a>
+      </div>
+
+      <!-- Judge Demonstration Quick Access -->
+      <div style="margin-top: 28px; padding-top: 18px; border-top: 1px dashed var(--border-color); text-align: center;">
+        <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px;">
+          ⚖️ Judge Demo Quick-Login
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <button class="btn btn-secondary" onclick="auth.quickDemoLogin('A')" style="font-size: 0.82rem; height: 38px;">
+            Farmer A (Tomato 25kg)
+          </button>
+          <button class="btn btn-secondary" onclick="auth.quickDemoLogin('B')" style="font-size: 0.82rem; height: 38px;">
+            Farmer B (Cucumber 10kg)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    async function handleLogin(e) {
+      e.preventDefault();
+      const mobile = document.getElementById('loginMobile').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      try {
+        await auth.login(mobile, password);
+        app.showToast('Login successful! Loading storage dashboard...', 'success');
+        setTimeout(() => window.location.href = 'home.html', 600);
+      } catch (err) {
+        app.showToast(err.message || 'Login failed. Please check credentials.', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

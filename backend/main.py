@@ -92,6 +92,16 @@ async def websocket_telemetry_endpoint(websocket: WebSocket):
 frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend"))
 if os.path.isdir(frontend_dir):
     app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+    app.mount("/css", StaticFiles(directory=os.path.join(frontend_dir, "css")), name="frontend_css")
+    app.mount("/js", StaticFiles(directory=os.path.join(frontend_dir, "js")), name="frontend_js")
+
+    @app.get("/manifest.json")
+    def serve_manifest():
+        return FileResponse(os.path.join(frontend_dir, "manifest.json"))
+
+    @app.get("/sw.js")
+    def serve_service_worker():
+        return FileResponse(os.path.join(frontend_dir, "sw.js"), media_type="application/javascript")
 
     @app.get("/")
     def serve_frontend_root():
