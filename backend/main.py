@@ -69,6 +69,11 @@ app.include_router(transport_router)
 app.include_router(recommendations_router)
 app.include_router(simulation_router)
 
+# Health check for container platforms (Render, Railway, etc.)
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "service": settings.APP_NAME}
+
 # Real-time WebSocket Endpoint
 @app.websocket("/ws/telemetry")
 async def websocket_telemetry_endpoint(websocket: WebSocket):
